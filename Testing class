@@ -1,0 +1,17 @@
+public class MyTestingClass {
+    private String name;
+    private int age;
+
+    public MyTestingClass(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 17;
+        hash = 31 * hash + name.hashCode();
+        hash = 31 * hash + age;
+        return hash;
+    }
+}

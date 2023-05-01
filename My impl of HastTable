@@ -1,0 +1,80 @@
+public class MyHashTable <K, V> {
+    private HashNode<K,V> [] chainArray;
+    private int M = 11;
+    private int size;
+    //constructor
+    public MyHashTable(){
+        chainArray = new HashNode[M];
+    }
+    //constructor with one parameter
+    public MyHashTable(int M){
+
+    }
+    public HashNode<K,V>[] getChainArray() {
+        return chainArray;
+    }
+    private int hash(K key) {
+        int h = key.hashCode();
+        h = (h >> 20) ^ (h >> 12) ^ h;
+        return h ^ (h >> 7) ^ (h >> 4);
+    }
+    //code for putting
+    public void put(K key, V value) {
+        // Find the index of the bucket for the given key
+        int index = getIndex(key);
+        HashNode<K, V> node = chainArray[index]; // Get the first node in the bucket
+        // Find if there is node with same key
+        while (node != null) {
+            if (node.getKey().equals(key)) { // If node with same key is found, update it
+                node.setValue(value);
+                return;
+            }
+            node = node.getNext(); // Move on to the next node in the bucket
+        }
+        // If node with same key doesn't exist, create a new node
+        HashNode<K, V> newNode = new HashNode<>(key, value);
+        // Add the new node to the beginning of the bucket
+        newNode.setNext(chainArray[index]);
+        chainArray[index] = newNode;
+        size++;
+    }
+
+    //removes element by key
+    public V remove(K key){
+        return null;
+    }
+    //check if there is an element in hashtable
+    public boolean contains(V value){
+        return false;
+    }
+    //for getting key
+    public K getKey(V value){
+        return null;
+    }
+
+    public V get(K key) {
+        // Get the index
+        int index = getIndex(key);
+        // Get the first node
+        HashNode<K, V> node = chainArray[index];
+        // Find the key, or reach the end
+        while (node != null) {
+            if (node.getKey().equals(key)) {
+                return node.getValue();
+            }
+            node = node.getNext();
+        }
+        return null;
+    }
+
+
+    private int getIndex(K key) {
+        int hashCode = key.hashCode(); // get the hashcode of the key
+        int index = hashCode % M; // it is where key-value pair should be stored1
+        if (index < 0) {
+            index += M; // add the length of the array to the index to make it positive
+        }
+        return index;
+    }
+
+}

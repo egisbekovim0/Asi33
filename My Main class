@@ -1,0 +1,36 @@
+import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        MyHashTable<MyTestingClass, Student> table = new MyHashTable<>(); // creating hashtable
+        Random rand = new Random();
+        // looping 10000
+        for (int i = 0; i < 10000; i++) {
+            //creating new key and value
+            MyTestingClass key = new MyTestingClass("Name" + rand.nextInt(100), rand.nextInt(100));
+            Student value = new Student("Student" + i);
+            // inserting into table
+            table.put(key, value);
+        }
+        // looping through our ChainArray
+        for (int i = 0; i < table.getChainArray().length; i++) {
+            // set node to currentNode
+            HashNode<MyTestingClass, Student> node = table.getChainArray()[i];
+            // loop till node is not null, setting node to next
+            int count = 0;
+            while (node != null) {
+                count++;
+                node = node.getNext();
+            }
+            System.out.println(i + " Bucket " + " has " + count + " elements" + " in it");
+        }
+
+    }
+}
+class Student{
+    private String name;
+
+    public Student(String name) {
+        this.name = name;
+    }
+}
